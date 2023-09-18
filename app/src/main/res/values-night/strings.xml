@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_result">검색 결과</string>
+    <string name="my_favorite">내 보관함</string>
+    <string name="search">검색</string>
+</resources>
