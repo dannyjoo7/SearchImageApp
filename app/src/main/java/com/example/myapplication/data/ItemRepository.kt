@@ -21,7 +21,7 @@ class ItemRepository :Repository {
     }
 
     suspend fun searchImage(query: String, sort: String): Response<MutableList<Item>> {
-        val response = RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 5)
+        val response = RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
 
         if (response.isSuccessful) {
             val imageDTO = response.body()

@@ -23,12 +23,14 @@ class SearchViewModel(
 
     fun searchImage() {
         viewModelScope.launch {
+            // test
             val response = repository.searchImage("카리나", "recency")
             if (response.isSuccessful) {
                 val itemList = response.body()
                 _search.value = itemList!!
             } else {
-                // 오류 처리를 수행하거나 필요한 방식으로 처리하세요.
+                // null일 시 공백 리스트 생성
+                _search.value = mutableListOf()
             }
         }
     }
