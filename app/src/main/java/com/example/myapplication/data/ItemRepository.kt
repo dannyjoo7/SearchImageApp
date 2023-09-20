@@ -2,7 +2,7 @@ package com.example.myapplication.data
 
 import androidx.lifecycle.LiveData
 
-class ItemRepository :Repository {
+class ItemRepository : Repository {
     override fun findSearchItems(): MutableList<Item> {
         return Data.getSearchData()
     }

@@ -16,7 +16,8 @@
         android:id="@+id/textSiteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="textSiteName" />
+        android:text="textSiteName"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewDate"

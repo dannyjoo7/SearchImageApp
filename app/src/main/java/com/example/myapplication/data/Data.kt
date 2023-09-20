@@ -5,27 +5,30 @@ import java.time.LocalDateTime
 
 
 object Data {
-    private val searchData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        mutableListOf(
-            Item("Item 1", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
-            Item("Item 2", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
-            Item("Item 3", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
-            Item("Item 4", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
-            Item("Item 5", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now())
-        )
-    } else {
-        mutableListOf()
-    }
+    private val searchData: MutableList<Item> =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mutableListOf(
+                Item("Item 1", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
+                Item("Item 2", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
+                Item("Item 3", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
+                Item("Item 4", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
+                Item("Item 5", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now())
+            )
+        } else {
+            mutableListOf()
+        }
 
-    private val favoriteData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        mutableListOf()
-    } else {
-        mutableListOf()
-    }
+    private val favoriteData: MutableList<Item> =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mutableListOf()
+        } else {
+            mutableListOf()
+        }
 
     fun getSearchData(): MutableList<Item> {
         return searchData
     }
+
     fun getFavoriteData(): MutableList<Item> {
         return favoriteData
     }
