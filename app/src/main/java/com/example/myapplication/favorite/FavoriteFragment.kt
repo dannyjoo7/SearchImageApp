@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.Data
+import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentSearchBinding
 
 class FavoriteFragment : Fragment() {
@@ -25,7 +26,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private val viewModel by lazy {
-        ViewModelProvider(this)
+        ViewModelProvider(this, FavoriteViewModelFactory(ItemRepository()))
             .get(FavoriteViewModel::class.java)
     }
 

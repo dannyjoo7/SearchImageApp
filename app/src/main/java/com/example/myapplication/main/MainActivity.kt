@@ -24,5 +24,10 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.setText(viewPagerAdapter.getTitle(position))
         }.attach()
+
+        imageViewSearch.setOnClickListener {
+            val searchWork = editTextSearch.text.trim()
+
+        }
     }
 }
