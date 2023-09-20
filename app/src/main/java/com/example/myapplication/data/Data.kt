@@ -4,8 +4,8 @@ import android.os.Build
 import java.time.LocalDateTime
 
 
-object data {
-    val searchData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+object Data {
+    private val searchData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         mutableListOf(
             Item("Item 1", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
             Item("Item 2", "유튜브", "https://ibb.co/z7PQLnC", LocalDateTime.now()),
@@ -17,10 +17,17 @@ object data {
         mutableListOf()
     }
 
-    val favoriteData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    private val favoriteData: MutableList<Item> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         mutableListOf()
     } else {
         mutableListOf()
+    }
+
+    fun getSearchData(): MutableList<Item> {
+        return searchData
+    }
+    fun getFavoriteData(): MutableList<Item> {
+        return favoriteData
     }
 
     fun removeFavoriteItem(item: Item) {

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
-import com.example.myapplication.data.data
+import com.example.myapplication.data.Data
 import com.example.myapplication.databinding.FragmentSearchBinding
 
 class FavoriteFragment : Fragment() {
@@ -21,7 +21,7 @@ class FavoriteFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val listAdapter by lazy {
-        FavoriteListAdapter(data.favoriteData)
+        FavoriteListAdapter(viewModel.getItemList().value!!)
     }
 
     private val viewModel by lazy {

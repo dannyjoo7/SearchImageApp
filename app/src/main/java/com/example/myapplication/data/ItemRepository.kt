@@ -1,40 +1,21 @@
 package com.example.myapplication.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 
-class ItemRepository {
-    private val searchItemList: MutableLiveData<List<Item>> = MutableLiveData(data.searchData)
-    private val favoriteItemList: MutableLiveData<List<Item>> = MutableLiveData(data.favoriteData)
-
-    fun getSearchItemList(): LiveData<List<Item>> {
-        return searchItemList
+class ItemRepository :Repository {
+    override fun findSearchItems(): MutableList<Item> {
+        return Data.getSearchData()
     }
 
-    fun getFavoriteItemList(): LiveData<List<Item>> {
-        return favoriteItemList
+    override fun findFavoriteItems(): MutableList<Item> {
+        return Data.getFavoriteData()
     }
 
-    fun removeFavoriteItem(item: Item) {
-        data.removeFavoriteItem(item)
-        updateFavoriteItem()
+    override fun removeFavoriteItem(item: Item) {
+        Data.removeFavoriteItem(item)
     }
 
-    fun addFavoriteItem(item: Item) {
-        data.addFavoriteItem(item)
-        updateFavoriteItem()
-    }
-
-    private fun updateSearchItem() {
-        searchItemList.value = data.searchData
-    }
-
-    private fun updateFavoriteItem() {
-        favoriteItemList.value = data.favoriteData
-    }
-
-    private fun updateAllList() {
-        updateSearchItem()
-        updateFavoriteItem()
+    override fun addFavoriteItem(item: Item) {
+        Data.addFavoriteItem(item)
     }
 }

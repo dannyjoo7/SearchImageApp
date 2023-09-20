@@ -1,7 +1,6 @@
 package com.example.myapplication.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
-import com.example.myapplication.data.data
+import com.example.myapplication.data.Data
 import com.example.myapplication.databinding.FragmentSearchBinding
 
 
@@ -23,7 +22,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val listAdapter by lazy {
-        SearchListAdapter(data.searchData)
+        SearchListAdapter(viewModel.getItemList().value!!)
     }
 
     private val viewModel by lazy {
