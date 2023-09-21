@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.data.Item
 import com.example.myapplication.databinding.SearchItemBinding
+import java.text.SimpleDateFormat
 
 class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDiffCallback()) {
 
@@ -41,7 +42,11 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDi
         fun bind(item: Item) {
             with(binding) {
                 textSiteName.text = item.display_sitename
-                textViewDate.text = item.datetime.toString()
+
+                val dateTime = item.datetime
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+                textViewDate.text = dateFormat.format(dateTime)
 
                 Glide.with(itemView.context)
                     .load(item.image_url)
