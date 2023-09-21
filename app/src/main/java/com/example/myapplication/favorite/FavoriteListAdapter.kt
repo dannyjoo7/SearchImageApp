@@ -65,7 +65,7 @@ class FavoriteListAdapter :
 
 private class ItemDiffCallback : DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-        return oldItem.id == newItem.id // 아이템의 고유 식별자를 비교
+        return oldItem.image_url == newItem.image_url // 아이템의 고유 식별자를 비교
     }
 
     override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {

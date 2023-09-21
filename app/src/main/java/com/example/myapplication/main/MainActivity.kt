@@ -2,7 +2,6 @@ package com.example.myapplication.main
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() = with(binding) {
         viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = viewPagerAdapter.itemCount
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.setText(viewPagerAdapter.getTitle(position))
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        editTextSearch.text = loadSearchWord()
+        editTextSearch.setText(loadSearchWord())
 
         imageViewSearch.setOnClickListener {
             val searchWord = editTextSearch.text.toString()
@@ -57,10 +57,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadSearchWord(): Editable? {
+    private fun loadSearchWord(): String {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val searchWord = sharedPreferences.getString("searchWord", "") ?: ""
-        return Editable.Factory.getInstance().newEditable(searchWord)
+        return sharedPreferences.getString("searchWord", "") ?: ""
     }
 
     private fun saveSearchWord(searchWord: String) {
@@ -69,5 +68,4 @@ class MainActivity : AppCompatActivity() {
         editor.putString("searchWord", searchWord)
         editor.apply()
     }
-
 }

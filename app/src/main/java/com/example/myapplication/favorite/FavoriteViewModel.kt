@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.ItemRepository
-import com.example.myapplication.data.Repository
-import com.example.myapplication.search.SearchViewModel
 
 class FavoriteViewModel(
     private val repository: ItemRepository
@@ -31,6 +29,7 @@ class FavoriteViewModel(
     }
 
     fun addFavoriteItem(item: Item) {
+
         // 라이브 데이터 업데이트...
         val currentList = _favorite.value ?: mutableListOf()
         currentList.add(item)
