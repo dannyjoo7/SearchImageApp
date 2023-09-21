@@ -19,10 +19,18 @@ class MainViewModel : ViewModel() {
     fun addFavoriteItem(item: Item) {
         _event.value = MainEventForFavorite.AddFavoriteItem(item)
     }
+
+    fun removeFavoriteItem(item: Item) {
+        _event.value = MainEventForFavorite.RemoveFavoriteItem(item)
+    }
 }
 
 sealed interface MainEventForFavorite {
     data class AddFavoriteItem(
+        val item: Item
+    ) : MainEventForFavorite
+
+    data class RemoveFavoriteItem(
         val item: Item
     ) : MainEventForFavorite
 }

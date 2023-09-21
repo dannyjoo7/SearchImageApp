@@ -16,7 +16,8 @@
         android:layout_height="24dp"
         android:layout_alignTop="@id/imageView"
         android:layout_alignRight="@id/imageView"
-        android:src="@drawable/ic_bookmark" />
+        android:src="@drawable/ic_bookmark"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/textSiteName"

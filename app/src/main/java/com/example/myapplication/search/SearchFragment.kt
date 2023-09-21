@@ -1,6 +1,7 @@
 package com.example.myapplication.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentSearchBinding
+import com.example.myapplication.main.MainEventForFavorite
 import com.example.myapplication.main.MainViewModel
 
 
@@ -60,8 +62,7 @@ class SearchFragment : Fragment() {
         listAdapter.setOnItemLongClickListener(object : SearchListAdapter.OnItemLongClickListener {
             override fun onItemLongClick(item: Item) {
                 // 롱클릭 이벤트 처리
-                // item 객체를 이용하여 필요한 작업 수행
-
+                item.isFavorite = true
                 mainViewModel.addFavoriteItem(item)
             }
         })
@@ -69,11 +70,21 @@ class SearchFragment : Fragment() {
 
     private fun initModel() = with(binding) {
         searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
-            listAdapter.submitList(itemList)
+            Log.d("search", "search값 변경")
+            listAdapter.submitList(itemList.toMutableList())
         }
 
         mainViewModel.searchWord.observe(viewLifecycleOwner) {
             searchViewModel.searchImage(it)
+        }
+
+        mainViewModel.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is MainEventForFavorite.AddFavoriteItem -> Unit
+                is MainEventForFavorite.RemoveFavoriteItem -> {
+                    searchViewModel.updateItem(event.item)
+                }
+            }
         }
     }
 

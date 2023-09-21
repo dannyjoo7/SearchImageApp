@@ -1,5 +1,6 @@
 package com.example.myapplication.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,6 @@ import java.util.concurrent.atomic.AtomicLong
 
 class SearchViewModel(
     private val repository: ItemRepository,
-    private val idGenerate: AtomicLong
 ) : ViewModel() {
 
     private val _search = MutableLiveData<MutableList<Item>>()
@@ -27,7 +27,7 @@ class SearchViewModel(
     fun searchImage(word: String) {
         viewModelScope.launch {
             // test
-            val response = repository.searchImage(word, "recency", idGenerate)
+            val response = repository.searchImage(word, "recency")
             if (response.isSuccessful) {
                 val itemList = response.body()
                 _search.value = itemList!!
@@ -41,16 +41,22 @@ class SearchViewModel(
     fun addFavoriteItem(item: Item) {
         repository.addFavoriteItem(item)
     }
+
+    fun updateItem(item: Item) {
+        val curList = _search.value ?: return
+        val curItem = curList.find { it.image_url == item.image_url } ?: return
+        val position = curList.indexOf(curItem)
+        curList[position] = item.copy(isFavorite = false)
+        _search.value = curList
+    }
 }
 
 class SearchViewModelFactory(
     private val repository: ItemRepository
 ) : ViewModelProvider.Factory {
-
-    private val idGenerate = AtomicLong(1L)
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            return SearchViewModel(repository, idGenerate) as T
+            return SearchViewModel(repository) as T
         } else {
             throw IllegalArgumentException("Not found ViewModel class.")
         }

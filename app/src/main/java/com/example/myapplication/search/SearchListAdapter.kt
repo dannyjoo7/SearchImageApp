@@ -1,6 +1,7 @@
 package com.example.myapplication.search
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -52,8 +53,18 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDi
                     .load(item.image_url)
                     .into(imageView)
 
+                if (item.isFavorite) {
+                    bookmarkIcon.visibility = View.VISIBLE
+                }
+
                 itemView.setOnLongClickListener {
                     onItemLongClickListener?.onItemLongClick(item)
+                    bookmarkIcon.visibility = if (bookmarkIcon.visibility == View.VISIBLE) {
+                        View.INVISIBLE
+                    } else {
+                        View.VISIBLE
+                    }
+
                     true
                 }
             }
@@ -63,7 +74,7 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDi
 
 private class ItemDiffCallback : DiffUtil.ItemCallback<Item>() {
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-        return oldItem.id == newItem.id // 아이템의 고유 식별자를 비교
+        return oldItem.image_url == newItem.image_url // 아이템의 고유 식별자를 비교
     }
 
     override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {

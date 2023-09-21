@@ -24,7 +24,6 @@ class ItemRepository : Repository {
     suspend fun searchImage(
         query: String,
         sort: String,
-        idGenerate: AtomicLong
     ): Response<MutableList<Item>> {
         val response =
             RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
@@ -38,12 +37,16 @@ class ItemRepository : Repository {
                 // title null 예외처리
                 val title = document.title ?: "(No Title)"
                 val item = Item(
-                    id = idGenerate.getAndIncrement(),
                     title = title,
                     display_sitename = document.display_sitename,
                     image_url = document.image_url,
-                    datetime = document.datetime
+                    datetime = document.datetime,
+                    isFavorite = false
                 )
+
+                if (findFavoriteItems().find { it.image_url == item.image_url } != null) {
+                    item.isFavorite = true
+                }
                 itemList.add(item)
             }
 

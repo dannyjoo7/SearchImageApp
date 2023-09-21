@@ -53,11 +53,6 @@ class FavoriteFragment : Fragment() {
         initModel()
     }
 
-    override fun onResume() = with(binding) {
-        super.onResume()
-        recyclerView.adapter = listAdapter
-    }
-
     private fun initView() = with(binding) {
         recyclerView.adapter = listAdapter
         val layoutManager = GridLayoutManager(requireContext(), 3)
@@ -68,7 +63,7 @@ class FavoriteFragment : Fragment() {
             override fun onItemLongClick(item: Item) {
                 // 롱클릭 이벤트 처리
                 // item 객체를 이용하여 필요한 작업 수행
-
+                mainViewModel.removeFavoriteItem(item)
                 favoriteViewModel.removeFavoriteItem(item)
             }
         })
@@ -84,6 +79,8 @@ class FavoriteFragment : Fragment() {
                 is MainEventForFavorite.AddFavoriteItem -> {
                     favoriteViewModel.addFavoriteItem(event.item)
                 }
+
+                is MainEventForFavorite.RemoveFavoriteItem -> Unit
             }
         }
     }

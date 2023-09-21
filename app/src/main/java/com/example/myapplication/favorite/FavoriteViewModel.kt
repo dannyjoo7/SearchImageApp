@@ -1,5 +1,6 @@
 package com.example.myapplication.favorite
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,7 +30,6 @@ class FavoriteViewModel(
     }
 
     fun addFavoriteItem(item: Item) {
-
         // 라이브 데이터 업데이트...
         val currentList = _favorite.value ?: mutableListOf()
         currentList.add(item)

@@ -1,6 +1,7 @@
 package com.example.myapplication.favorite
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -53,6 +54,10 @@ class FavoriteListAdapter :
                 Glide.with(itemView.context)
                     .load(item.image_url)
                     .into(imageView)
+
+                if (item.isFavorite) {
+                    bookmarkIcon.visibility = View.VISIBLE
+                }
 
                 itemView.setOnLongClickListener {
                     onItemLongClickListener?.onItemLongClick(item)
