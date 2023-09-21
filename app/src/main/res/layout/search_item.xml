@@ -7,16 +7,17 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
         android:layout_gravity="center"
-        android:src="@drawable/pepe" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/textSiteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="textSiteName"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
@@ -24,11 +25,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="textViewDate" />
-
-    <TextView
-        android:id="@+id/textViewTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="textViewTime" />
 
 </LinearLayout>
