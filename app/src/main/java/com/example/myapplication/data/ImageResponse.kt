@@ -2,7 +2,7 @@ package com.example.myapplication.data
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageDTO(
+data class ImageResponse(
     @SerializedName("meta")
     val metaData: MetaData?,
 

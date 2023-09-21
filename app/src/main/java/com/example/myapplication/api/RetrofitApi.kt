@@ -1,7 +1,7 @@
 package com.example.myapplication.api
 
 import com.example.myapplication.BuildConfig
-import com.example.myapplication.data.ImageDTO
+import com.example.myapplication.data.ImageResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -15,5 +15,5 @@ interface RetrofitApi {
         @Query("sort") sort: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Response<ImageDTO>
+    ): Response<ImageResponse>
 }
