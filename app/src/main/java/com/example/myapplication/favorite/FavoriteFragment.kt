@@ -1,6 +1,7 @@
 package com.example.myapplication.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
-import com.example.myapplication.data.Data
 import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentFavoriteBinding
-import com.example.myapplication.databinding.FragmentSearchBinding
 
 class FavoriteFragment : Fragment() {
 
@@ -23,12 +22,14 @@ class FavoriteFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val listAdapter by lazy {
-        FavoriteListAdapter(viewModel.getItemList().value!!)
+        FavoriteListAdapter()
     }
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, FavoriteViewModelFactory(ItemRepository()))
-            .get(FavoriteViewModel::class.java)
+    private val favoriteViewModel by lazy {
+        ViewModelProvider(
+            this,
+            FavoriteViewModelFactory(ItemRepository())
+        )[FavoriteViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -62,14 +63,14 @@ class FavoriteFragment : Fragment() {
                 // 롱클릭 이벤트 처리
                 // item 객체를 이용하여 필요한 작업 수행
 
-                viewModel.removeFavoriteItem(item)
+                favoriteViewModel.removeFavoriteItem(item)
             }
         })
     }
 
     private fun initModel() = with(binding) {
-        viewModel.getItemList().observe(viewLifecycleOwner) {
-            listAdapter.notifyDataSetChanged()
+        favoriteViewModel.favorite.observe(viewLifecycleOwner) { it ->
+            listAdapter.submitList(it.toMutableList())
         }
     }
 

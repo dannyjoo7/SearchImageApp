@@ -16,15 +16,11 @@ class FavoriteViewModel(
     private val _favorite = MutableLiveData<MutableList<Item>>()
 
     // 외부에서 변경할 수 없는 LiveData를 공개
-    private val favorite: LiveData<MutableList<Item>>
+    val favorite: LiveData<MutableList<Item>>
         get() = _favorite
 
     init {
         _favorite.value = repository.findFavoriteItems()
-    }
-
-    fun getItemList(): LiveData<MutableList<Item>> {
-        return favorite
     }
 
     fun removeFavoriteItem(item: Item) {
@@ -38,7 +34,7 @@ class FavoriteViewModel(
 }
 
 class FavoriteViewModelFactory(
-        private val repository: ItemRepository
+    private val repository: ItemRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return FavoriteViewModel(repository) as T

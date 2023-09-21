@@ -10,7 +10,7 @@ import com.example.myapplication.data.Item
 import com.example.myapplication.databinding.SearchItemBinding
 import java.text.SimpleDateFormat
 
-class FavoriteListAdapter(private val data: MutableList<Item>) :
+class FavoriteListAdapter :
     ListAdapter<Item, FavoriteListAdapter.ViewHolder>(ItemDiffCallback()) {
 
     // 롱클릭 리스너 인터페이스 정의
@@ -32,13 +32,13 @@ class FavoriteListAdapter(private val data: MutableList<Item>) :
         )
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+    }
+
+    override fun getItemCount(): Int {
+        return super.getItemCount()
     }
 
     inner class ViewHolder(
