@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.Data
 import com.example.myapplication.data.ItemRepository
+import com.example.myapplication.databinding.FragmentFavoriteBinding
 import com.example.myapplication.databinding.FragmentSearchBinding
 
 class FavoriteFragment : Fragment() {
@@ -18,7 +19,7 @@ class FavoriteFragment : Fragment() {
         fun newInstance() = FavoriteFragment()
     }
 
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
     private val listAdapter by lazy {
@@ -35,7 +36,7 @@ class FavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
