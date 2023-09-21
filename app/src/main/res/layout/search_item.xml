@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5sp"
-    android:orientation="vertical">
+    android:layout_margin="5sp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -12,10 +10,19 @@
         android:layout_gravity="center"
         android:scaleType="centerCrop" />
 
+    <ImageView
+        android:id="@+id/bookmarkIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@id/imageView"
+        android:layout_alignRight="@id/imageView"
+        android:src="@drawable/ic_bookmark" />
+
     <TextView
         android:id="@+id/textSiteName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imageView"
         android:text="textSiteName"
         android:textSize="17sp"
         android:textStyle="bold" />
@@ -24,6 +31,7 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textSiteName"
         android:text="textViewDate" />
 
-</LinearLayout>
+</RelativeLayout>
