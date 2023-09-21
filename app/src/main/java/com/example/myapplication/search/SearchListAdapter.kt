@@ -59,12 +59,7 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDi
 
                 itemView.setOnLongClickListener {
                     onItemLongClickListener?.onItemLongClick(item)
-                    bookmarkIcon.visibility = if (bookmarkIcon.visibility == View.VISIBLE) {
-                        View.INVISIBLE
-                    } else {
-                        View.VISIBLE
-                    }
-
+                    bookmarkIcon.visibility = View.VISIBLE
                     true
                 }
             }

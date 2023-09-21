@@ -32,7 +32,11 @@ class FavoriteViewModel(
     fun addFavoriteItem(item: Item) {
         // 라이브 데이터 업데이트...
         val currentList = _favorite.value ?: mutableListOf()
-        currentList.add(item)
+
+        // 중복 북마크 방지
+        if (currentList.contains(item)) return
+        
+        currentList.add(item.copy())
         _favorite.value = currentList
     }
 }
