@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun initModel() = with(binding) {
-        viewModel.getItemList().observe(viewLifecycleOwner) { itemList ->
+        viewModel.search.observe(viewLifecycleOwner) { itemList ->
             listAdapter.submitList(itemList)
         }
 

@@ -2,8 +2,9 @@ package com.example.myapplication.data
 
 import com.example.myapplication.api.RetrofitInstance
 import retrofit2.Response
+import java.util.concurrent.atomic.AtomicLong
 
-class ItemRepository :Repository {
+class ItemRepository : Repository {
     override fun findSearchItems(): MutableList<Item> {
         return Data.getSearchData()
     }
@@ -20,8 +21,13 @@ class ItemRepository :Repository {
         Data.addFavoriteItem(item)
     }
 
-    suspend fun searchImage(query: String, sort: String): Response<MutableList<Item>> {
-        val response = RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
+    suspend fun searchImage(
+        query: String,
+        sort: String,
+        idGenerate: AtomicLong
+    ): Response<MutableList<Item>> {
+        val response =
+            RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
 
         if (response.isSuccessful) {
             val imageDTO = response.body()
@@ -32,6 +38,7 @@ class ItemRepository :Repository {
                 // title null 예외처리
                 val title = document.title ?: "(No Title)"
                 val item = Item(
+                    id = idGenerate.getAndIncrement(),
                     title = title,
                     display_sitename = document.display_sitename,
                     image_url = document.image_url,

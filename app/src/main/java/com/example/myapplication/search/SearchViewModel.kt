@@ -17,14 +17,17 @@ class SearchViewModel(
 
     private val _search = MutableLiveData<MutableList<Item>>()
 
-    // 외부에서 변경할 수 없는 LiveData를 공개
-    private val search: LiveData<MutableList<Item>>
+    val search: LiveData<MutableList<Item>>
         get() = _search
+
+    init {
+        _search.value = repository.findSearchItems()
+    }
 
     fun searchImage(word: String) {
         viewModelScope.launch {
             // test
-            val response = repository.searchImage(word, "recency")
+            val response = repository.searchImage(word, "recency", idGenerate)
             if (response.isSuccessful) {
                 val itemList = response.body()
                 _search.value = itemList!!
@@ -33,15 +36,6 @@ class SearchViewModel(
                 _search.value = mutableListOf()
             }
         }
-    }
-
-
-    init {
-        _search.value = repository.findSearchItems()
-    }
-
-    fun getItemList(): LiveData<MutableList<Item>> {
-        return search
     }
 
     fun addFavoriteItem(item: Item) {
