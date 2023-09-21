@@ -28,8 +28,13 @@ class FavoriteViewModel(
         val currentList = _favorite.value ?: mutableListOf()
         currentList.remove(item)
         _favorite.value = currentList
+    }
 
-        repository.removeFavoriteItem(item)
+    fun addFavoriteItem(item: Item) {
+        // 라이브 데이터 업데이트...
+        val currentList = _favorite.value ?: mutableListOf()
+        currentList.add(item)
+        _favorite.value = currentList
     }
 }
 

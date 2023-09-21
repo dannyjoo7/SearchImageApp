@@ -30,7 +30,7 @@ class SearchFragment : Fragment() {
         ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
 
-    private val viewModel by lazy {
+    private val searchViewModel by lazy {
         ViewModelProvider(
             this,
             SearchViewModelFactory(ItemRepository())
@@ -62,18 +62,18 @@ class SearchFragment : Fragment() {
                 // 롱클릭 이벤트 처리
                 // item 객체를 이용하여 필요한 작업 수행
 
-                viewModel.addFavoriteItem(item)
+                mainViewModel.addFavoriteItem(item)
             }
         })
     }
 
     private fun initModel() = with(binding) {
-        viewModel.search.observe(viewLifecycleOwner) { itemList ->
+        searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
             listAdapter.submitList(itemList)
         }
 
         mainViewModel.searchWord.observe(viewLifecycleOwner) {
-            viewModel.searchImage(it)
+            searchViewModel.searchImage(it)
         }
     }
 

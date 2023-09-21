@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentFavoriteBinding
+import com.example.myapplication.main.MainEventForFavorite
+import com.example.myapplication.main.MainViewModel
 
 class FavoriteFragment : Fragment() {
 
@@ -23,6 +25,10 @@ class FavoriteFragment : Fragment() {
 
     private val listAdapter by lazy {
         FavoriteListAdapter()
+    }
+
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(requireActivity())[MainViewModel::class.java]
     }
 
     private val favoriteViewModel by lazy {
@@ -71,6 +77,14 @@ class FavoriteFragment : Fragment() {
     private fun initModel() = with(binding) {
         favoriteViewModel.favorite.observe(viewLifecycleOwner) { it ->
             listAdapter.submitList(it.toMutableList())
+        }
+
+        mainViewModel.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is MainEventForFavorite.AddFavoriteItem -> {
+                    favoriteViewModel.addFavoriteItem(event.item)
+                }
+            }
         }
     }
 

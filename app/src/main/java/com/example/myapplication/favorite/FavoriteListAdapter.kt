@@ -37,10 +37,6 @@ class FavoriteListAdapter :
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
-
     inner class ViewHolder(
         val binding: SearchItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
