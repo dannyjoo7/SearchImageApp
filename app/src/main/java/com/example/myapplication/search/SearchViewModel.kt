@@ -21,10 +21,10 @@ class SearchViewModel(
     private val search: LiveData<MutableList<Item>>
         get() = _search
 
-    fun searchImage() {
+    fun searchImage(word: String) {
         viewModelScope.launch {
             // test
-            val response = repository.searchImage("카리나", "recency")
+            val response = repository.searchImage(word, "recency")
             if (response.isSuccessful) {
                 val itemList = response.body()
                 _search.value = itemList!!
