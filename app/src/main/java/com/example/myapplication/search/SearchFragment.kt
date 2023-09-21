@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.data.Item
-import com.example.myapplication.data.Data
 import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.main.MainViewModel
@@ -75,7 +72,7 @@ class SearchFragment : Fragment() {
             listAdapter.submitList(itemList)
         }
 
-        mainViewModel.todoEvent.observe(viewLifecycleOwner) {
+        mainViewModel.searchWord.observe(viewLifecycleOwner) {
             viewModel.searchImage(it)
         }
     }

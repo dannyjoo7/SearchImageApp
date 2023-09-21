@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
-    private val _todoEvent: MutableLiveData<String> = MutableLiveData()
-    val todoEvent: LiveData<String> get() = _todoEvent
+    private val _searchWord: MutableLiveData<String> = MutableLiveData()
+    val searchWord: LiveData<String> get() = _searchWord
 
     fun updateSearchWord(word: String) {
-        _todoEvent.value = word
+        _searchWord.value = word
     }
 }
