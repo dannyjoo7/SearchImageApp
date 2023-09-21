@@ -1,5 +1,6 @@
 package com.example.myapplication.data
 
+import android.util.Log
 import com.example.myapplication.api.RetrofitInstance
 import retrofit2.Response
 import java.util.concurrent.atomic.AtomicLong
@@ -43,10 +44,6 @@ class ItemRepository : Repository {
                     datetime = document.datetime,
                     isFavorite = false
                 )
-
-                if (findFavoriteItems().find { it.image_url == item.image_url } != null) {
-                    item.isFavorite = true
-                }
                 itemList.add(item)
             }
 

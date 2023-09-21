@@ -45,6 +45,7 @@ class SearchViewModel(
     fun updateItem(item: Item) {
         val curList = _search.value ?: return
         val curItem = curList.find { it.image_url == item.image_url } ?: return
+
         val position = curList.indexOf(curItem)
         curList[position] = item.copy(isFavorite = false)
         _search.value = curList

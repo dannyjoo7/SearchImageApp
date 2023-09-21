@@ -35,8 +35,7 @@ class FavoriteViewModel(
 
         // 중복 북마크 방지
         if (currentList.contains(item)) return
-        
-        currentList.add(item.copy())
+        currentList.add(item)
         _favorite.value = currentList
     }
 }

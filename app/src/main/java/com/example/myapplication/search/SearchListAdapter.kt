@@ -55,6 +55,8 @@ class SearchListAdapter : ListAdapter<Item, SearchListAdapter.ViewHolder>(ItemDi
 
                 if (item.isFavorite) {
                     bookmarkIcon.visibility = View.VISIBLE
+                } else {
+                    bookmarkIcon.visibility = View.INVISIBLE
                 }
 
                 itemView.setOnLongClickListener {

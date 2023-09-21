@@ -70,7 +70,6 @@ class SearchFragment : Fragment() {
 
     private fun initModel() = with(binding) {
         searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
-            Log.d("search", "search값 변경")
             listAdapter.submitList(itemList.toMutableList())
         }
 
