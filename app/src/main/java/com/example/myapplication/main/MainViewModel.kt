@@ -9,19 +9,19 @@ class MainViewModel : ViewModel() {
     private val _searchWord: MutableLiveData<String> = MutableLiveData()
     val searchWord: LiveData<String> get() = _searchWord
 
-    private val _event: MutableLiveData<MainEventForFavorite> = MutableLiveData()
-    val event: LiveData<MainEventForFavorite> get() = _event
+    private val _favoriteEvent: MutableLiveData<MainEventForFavorite> = MutableLiveData()
+    val favoriteEvent: LiveData<MainEventForFavorite> get() = _favoriteEvent
 
     fun updateSearchWord(word: String) {
         _searchWord.value = word
     }
 
     fun addFavoriteItem(item: Item) {
-        _event.value = MainEventForFavorite.AddFavoriteItem(item)
+        _favoriteEvent.value = MainEventForFavorite.AddFavoriteItem(item)
     }
 
     fun removeFavoriteItem(item: Item) {
-        _event.value = MainEventForFavorite.RemoveFavoriteItem(item)
+        _favoriteEvent.value = MainEventForFavorite.RemoveFavoriteItem(item)
     }
 }
 

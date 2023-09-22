@@ -1,7 +1,6 @@
 package com.example.myapplication.favorite
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +73,7 @@ class FavoriteFragment : Fragment() {
             listAdapter.submitList(it.toMutableList())
         }
 
-        mainViewModel.event.observe(viewLifecycleOwner) { event ->
+        mainViewModel.favoriteEvent.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is MainEventForFavorite.AddFavoriteItem -> {
                     favoriteViewModel.addFavoriteItem(event.item)
