@@ -12,14 +12,15 @@ import com.example.myapplication.provider.MainContextProviderImpl
 class MainViewModel(
     private val contextProvider: ContextProvider
 ) : ViewModel() {
-    private val _searchWord: MutableLiveData<String> = MutableLiveData()
-    val searchWord: LiveData<String> get() = _searchWord
 
     private val _favoriteEvent: MutableLiveData<MainEventForFavorite> = MutableLiveData()
     val favoriteEvent: LiveData<MainEventForFavorite> get() = _favoriteEvent
 
+    private val _searchEvent: MutableLiveData<MainEventForSearch> = MutableLiveData()
+    val searchEvent: LiveData<MainEventForSearch> get() = _searchEvent
+
     fun updateSearchWord(word: String) {
-        _searchWord.value = word
+        _searchEvent.value = MainEventForSearch.SearchItem(word)
     }
 
     fun addFavoriteItem(item: Item) {
@@ -35,12 +36,19 @@ class MainViewModel(
         return sharedPreferences.getString("searchWord", "") ?: ""
     }
 
+    // 기기에서 로드...
     fun saveSearchWord(word: String) {
         val sharedPreferences = contextProvider.getSharedPreferences()
         val editor = sharedPreferences.edit()
         editor.putString("searchWord", word)
         editor.apply()
     }
+}
+
+sealed interface MainEventForSearch {
+    data class SearchItem(
+        val word: String
+    ) : MainEventForSearch
 }
 
 sealed interface MainEventForFavorite {
