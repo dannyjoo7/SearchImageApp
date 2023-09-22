@@ -1,7 +1,6 @@
 package com.example.myapplication.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +69,8 @@ class SearchFragment : Fragment() {
 
     private fun initModel() = with(binding) {
         searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
+            // 이미 북마크 된 요소들 처리
+            // ex)
             listAdapter.submitList(itemList.toMutableList())
         }
 
@@ -77,7 +78,7 @@ class SearchFragment : Fragment() {
             searchViewModel.searchImage(it)
         }
 
-        mainViewModel.event.observe(viewLifecycleOwner) { event ->
+        mainViewModel.favoriteEvent.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is MainEventForFavorite.AddFavoriteItem -> Unit
                 is MainEventForFavorite.RemoveFavoriteItem -> {
