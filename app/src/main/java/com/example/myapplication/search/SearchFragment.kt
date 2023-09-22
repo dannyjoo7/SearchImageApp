@@ -75,7 +75,7 @@ class SearchFragment : Fragment() {
         }
 
         mainViewModel.searchWord.observe(viewLifecycleOwner) {
-            searchViewModel.searchImage(it)
+            searchViewModel.searchItem(it)
         }
 
         mainViewModel.favoriteEvent.observe(viewLifecycleOwner) { event ->

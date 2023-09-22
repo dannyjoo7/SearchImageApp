@@ -3,7 +3,6 @@ package com.example.myapplication.data
 import android.util.Log
 import com.example.myapplication.api.RetrofitInstance
 import retrofit2.Response
-import java.util.concurrent.atomic.AtomicLong
 
 class ItemRepository : Repository {
     override fun findSearchItems(): MutableList<Item> {
@@ -30,11 +29,10 @@ class ItemRepository : Repository {
             RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
 
         if (response.isSuccessful) {
-            val imageDTO = response.body()
-            val itemList = mutableListOf<Item>()
+            val imageResponse = response.body()
+            val imgList = mutableListOf<Item>()
 
-            // imageDTO에서 필요한 데이터를 추출하고 Item 객체로 변환하여 itemList에 추가
-            imageDTO?.documents?.forEach { document ->
+            imageResponse?.documents?.forEach { document ->
                 // title null 예외처리
                 val title = document.title ?: "(No Title)"
                 val item = Item(
@@ -44,10 +42,39 @@ class ItemRepository : Repository {
                     datetime = document.datetime,
                     isFavorite = false
                 )
-                itemList.add(item)
+                imgList.add(item)
+            }
+            return Response.success(imgList)
+        } else {
+            return Response.error(response.code(), response.errorBody())
+        }
+    }
+
+    suspend fun searchVideo(
+        query: String,
+        sort: String,
+    ): Response<MutableList<Item>> {
+        val response =
+            RetrofitInstance.api.searchVideo(query = query, sort = sort, page = 1)
+
+        if (response.isSuccessful) {
+            val videoResponse = response.body()
+            val videoList = mutableListOf<Item>()
+
+            videoResponse?.documents?.forEach { document ->
+                // title null 예외처리
+                val title = document.title ?: "(No Title)"
+                val item = VideoItem(
+                    title = title,
+                    url = document.url,
+                    datetime = document.datetime,
+                    thumbnail = document.thumbnail,
+                    isFavorite = false
+                )
+                videoList.add(item.toItem())
             }
 
-            return Response.success(itemList)
+            return Response.success(videoList)
         } else {
             return Response.error(response.code(), response.errorBody())
         }

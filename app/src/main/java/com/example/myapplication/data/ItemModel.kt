@@ -4,7 +4,6 @@ import java.util.Date
 
 
 data class Item(
-    val id: Long? = -1,
     val title: String,
     val display_sitename: String,
     val image_url: String,
@@ -12,11 +11,20 @@ data class Item(
     var isFavorite: Boolean,
 )
 
-data class FavoriteItem(
-    val id: Long? = -1,
+data class VideoItem(
     val title: String,
-    val display_sitename: String,
-    val image_url: String,
+    val url: String,
     val datetime: Date,
+    val thumbnail: String,
     var isFavorite: Boolean,
 )
+
+fun VideoItem.toItem(): Item {
+    return Item(
+        title = "title",
+        display_sitename = title,
+        image_url = thumbnail,
+        datetime = datetime,
+        isFavorite = isFavorite,
+    )
+}
