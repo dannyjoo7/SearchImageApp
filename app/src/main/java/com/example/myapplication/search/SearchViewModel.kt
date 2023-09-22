@@ -15,6 +15,9 @@ class SearchViewModel(
     private val repository: ItemRepository,
 ) : ViewModel() {
 
+    private var word = ""
+    private var page = 0
+
     private val _search = MutableLiveData<MutableList<Item>>()
 
     val search: LiveData<MutableList<Item>>
@@ -24,34 +27,17 @@ class SearchViewModel(
         _search.value = repository.findSearchItems()
     }
 
-    fun searchImage(word: String) {
-        viewModelScope.launch {
-            // test
-            val response = repository.searchImage(word, "recency")
-            if (response.isSuccessful) {
-                val itemList = response.body() ?: mutableListOf()
-                val favoriteList = repository.findFavoriteItems()
-
-                for (favorite in favoriteList) {
-                    val foundItem = itemList.find { it.image_url == favorite.image_url }
-
-                    if (foundItem != null) {
-                        foundItem.isFavorite = true
-                    }
-                }
-                _search.value = itemList
-            } else {
-                // null일 시 공백 리스트 생성
-                _search.value = mutableListOf()
-            }
-        }
-    }
-
     fun searchItem(word: String) {
+
+        // 값 초기화...
+        this.word = word
+        this.page = 0
+
         viewModelScope.launch {
-            // test
             val list = mutableListOf<Item>()
-            val responseImg = repository.searchImage(word, "recency")
+
+            // Image
+            val responseImg = repository.searchImage(word, "recency", ++page)
 
             if (responseImg.isSuccessful) {
                 val itemList = responseImg.body() ?: mutableListOf()
@@ -70,7 +56,8 @@ class SearchViewModel(
                 _search.value = mutableListOf()
             }
 
-            val responseVideo = repository.searchVideo(word, "recency")
+            // Video
+            val responseVideo = repository.searchVideo(word, "recency", page)
             if (responseVideo.isSuccessful) {
                 val itemList = responseVideo.body() ?: mutableListOf()
                 val favoriteList = repository.findFavoriteItems()
@@ -90,11 +77,63 @@ class SearchViewModel(
 
             list.sortByDescending { it.datetime }
             _search.value = list
+
+            Log.d("test", "초기값 : ${list.size}")
         }
     }
 
-    fun addFavoriteItem(item: Item) {
-        repository.addFavoriteItem(item)
+    fun loadNextPage() {
+        viewModelScope.launch {
+            val list = mutableListOf<Item>()
+
+            // Image
+            val responseImg = repository.searchImage(word, "recency", ++page)
+
+            if (responseImg.isSuccessful) {
+                val itemList = responseImg.body() ?: mutableListOf()
+                val favoriteList = repository.findFavoriteItems()
+
+                for (favorite in favoriteList) {
+                    val foundItem = itemList.find { it.image_url == favorite.image_url }
+
+                    if (foundItem != null) {
+                        foundItem.isFavorite = true
+                    }
+                }
+                list.addAll(itemList)
+            } else {
+                // null일 시 공백 리스트 생성
+                _search.value = mutableListOf()
+            }
+
+            // Video
+            val responseVideo = repository.searchVideo(word, "recency", page)
+            if (responseVideo.isSuccessful) {
+                val itemList = responseVideo.body() ?: mutableListOf()
+                val favoriteList = repository.findFavoriteItems()
+
+                for (favorite in favoriteList) {
+                    val foundItem = itemList.find { it.image_url == favorite.image_url }
+
+                    if (foundItem != null) {
+                        foundItem.isFavorite = true
+                    }
+                }
+                list.addAll(itemList)
+            } else {
+                // null일 시 공백 리스트 생성
+                _search.value = mutableListOf()
+            }
+
+            list.sortByDescending { it.datetime }
+
+            // 새로운 페이지 아이템 추가...
+            val curList = _search.value ?: mutableListOf()
+            curList.addAll(list)
+            _search.value = curList
+
+            Log.d("test", "페이지 로딩 후 값 : ${curList.size}")
+        }
     }
 
     fun updateItem(item: Item) {
