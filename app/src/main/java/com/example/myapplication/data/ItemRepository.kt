@@ -24,9 +24,10 @@ class ItemRepository : Repository {
     suspend fun searchImage(
         query: String,
         sort: String,
+        page: Int,
     ): Response<MutableList<Item>> {
         val response =
-            RetrofitInstance.api.searchImage(query = query, sort = sort, page = 1, size = 80)
+            RetrofitInstance.api.searchImage(query = query, sort = sort, page = page)
 
         if (response.isSuccessful) {
             val imageResponse = response.body()
@@ -53,9 +54,10 @@ class ItemRepository : Repository {
     suspend fun searchVideo(
         query: String,
         sort: String,
+        page: Int,
     ): Response<MutableList<Item>> {
         val response =
-            RetrofitInstance.api.searchVideo(query = query, sort = sort, page = 1)
+            RetrofitInstance.api.searchVideo(query = query, sort = sort, page = page)
 
         if (response.isSuccessful) {
             val videoResponse = response.body()
@@ -79,6 +81,4 @@ class ItemRepository : Repository {
             return Response.error(response.code(), response.errorBody())
         }
     }
-
-
 }

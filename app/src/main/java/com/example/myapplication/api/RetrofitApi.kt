@@ -15,7 +15,6 @@ interface RetrofitApi {
         @Query("query") query: String,
         @Query("sort") sort: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
     ): Response<ImageResponse>
 
     @GET("v2/search/vclip")

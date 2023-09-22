@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.data.Item
 import com.example.myapplication.data.ItemRepository
 import com.example.myapplication.databinding.FragmentSearchBinding
 import com.example.myapplication.main.MainEventForFavorite
+import com.example.myapplication.main.MainEventForSearch
 import com.example.myapplication.main.MainViewModel
 
 
@@ -38,6 +40,9 @@ class SearchFragment : Fragment() {
         )[SearchViewModel::class.java]
     }
 
+    // 무한 스크롤...
+    private var isLoading = false // 데이터 로딩 중인지 여부를 나타내는 플래그
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +63,7 @@ class SearchFragment : Fragment() {
         val layoutManager = GridLayoutManager(requireContext(), 3)
         recyclerView.layoutManager = layoutManager
 
+        // 롱클릭 시 북마크...
         listAdapter.setOnItemLongClickListener(object : SearchListAdapter.OnItemLongClickListener {
             override fun onItemLongClick(item: Item) {
                 // 롱클릭 이벤트 처리
@@ -65,17 +71,41 @@ class SearchFragment : Fragment() {
                 mainViewModel.addFavoriteItem(item)
             }
         })
+
+
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                // 스크롤이 마지막 아이템 근처로 도달하면 추가 데이터를 로드합니다.
+                if (!isLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount) && firstVisibleItemPosition >= 0) {
+                    isLoading = true
+                    searchViewModel.loadNextPage()
+                }
+            }
+        })
     }
 
     private fun initModel() = with(binding) {
         searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
+            // 데이터 로드 완료...
+            isLoading = false
+
             // 이미 북마크 된 요소들 처리
-            // ex)
             listAdapter.submitList(itemList.toMutableList())
         }
 
-        mainViewModel.searchWord.observe(viewLifecycleOwner) {
-            searchViewModel.searchItem(it)
+        mainViewModel.searchEvent.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is MainEventForSearch.SearchItem -> {
+                    searchViewModel.searchItem(event.word)
+                }
+            }
         }
 
         mainViewModel.favoriteEvent.observe(viewLifecycleOwner) { event ->
