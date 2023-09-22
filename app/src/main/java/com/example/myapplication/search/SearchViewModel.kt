@@ -29,8 +29,18 @@ class SearchViewModel(
             // test
             val response = repository.searchImage(word, "recency")
             if (response.isSuccessful) {
-                val itemList = response.body()
-                _search.value = itemList!!
+                val itemList = response.body() ?: mutableListOf()
+                val favoriteList = repository.findFavoriteItems()
+
+                for (favorite in favoriteList) {
+                    val foundItem = itemList.find { it.image_url == favorite.image_url }
+
+                    if (foundItem != null) {
+                        foundItem.isFavorite = true
+                    }
+                }
+
+                _search.value = itemList
             } else {
                 // null일 시 공백 리스트 생성
                 _search.value = mutableListOf()
