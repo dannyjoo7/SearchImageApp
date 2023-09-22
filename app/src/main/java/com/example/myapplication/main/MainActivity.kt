@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
@@ -17,7 +18,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val viewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+        ViewModelProvider(
+            this,
+            MainViewModelFactory(this)
+        )[MainViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,26 +50,14 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        editTextSearch.setText(loadSearchWord())
+        editTextSearch.setText(viewModel.loadSearchWord())
 
         imageViewSearch.setOnClickListener {
             val searchWord = editTextSearch.text.toString()
 
             // 기기에 저장
-            saveSearchWord(searchWord)
+            viewModel.saveSearchWord(searchWord)
             viewModel.updateSearchWord(searchWord)
         }
-    }
-
-    private fun loadSearchWord(): String {
-        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("searchWord", "") ?: ""
-    }
-
-    private fun saveSearchWord(searchWord: String) {
-        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("searchWord", searchWord)
-        editor.apply()
     }
 }

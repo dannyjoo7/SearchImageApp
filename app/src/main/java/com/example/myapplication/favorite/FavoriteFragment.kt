@@ -33,7 +33,10 @@ class FavoriteFragment : Fragment() {
     private val favoriteViewModel by lazy {
         ViewModelProvider(
             this,
-            FavoriteViewModelFactory(ItemRepository())
+            FavoriteViewModelFactory(
+                ItemRepository(),
+                requireContext()
+            )
         )[FavoriteViewModel::class.java]
     }
 

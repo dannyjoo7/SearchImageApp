@@ -5,13 +5,7 @@ import java.util.Date
 
 
 object Data {
-    private val searchData: MutableList<Item> =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mutableListOf()
-        } else {
-            mutableListOf()
-        }
-
+    private val searchData: MutableList<Item> = mutableListOf()
     private val favoriteData: MutableList<Item> = mutableListOf()
 
     fun getSearchData(): MutableList<Item> {
