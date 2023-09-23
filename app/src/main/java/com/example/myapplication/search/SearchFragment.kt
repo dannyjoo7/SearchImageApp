@@ -85,6 +85,7 @@ class SearchFragment : Fragment() {
                 // 스크롤이 마지막 아이템 근처로 도달하면 추가 데이터를 로드합니다.
                 if (!isLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount) && firstVisibleItemPosition >= 0) {
                     isLoading = true
+                    progressBar.visibility = View.VISIBLE
                     searchViewModel.loadNextPage()
                 }
             }
@@ -95,7 +96,7 @@ class SearchFragment : Fragment() {
         searchViewModel.search.observe(viewLifecycleOwner) { itemList ->
             // 데이터 로드 완료...
             isLoading = false
-
+            progressBar.visibility = View.GONE
             // 이미 북마크 된 요소들 처리
             listAdapter.submitList(itemList.toMutableList())
         }
